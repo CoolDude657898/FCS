@@ -19,25 +19,50 @@ local function fcsLogoFade()
 
     fcsIcon.ImageTransparency = 1
 
-    local fadeInTween = tweenService:Create(fcsIcon, TweenInfo.new(1, Enum.EasingStyle.Quint), {ImageTransparency = 0})
-    local fadeOutTween = tweenService:Create(fcsIcon, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1})
-    local menuFadeInTween = tweenService:Create(menuGui.MenuReference, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {GroupTransparency = 0, Position = UDim2.new(0,0,0,0)})
+    local logoFadeInTween = tweenService:Create(fcsIcon, TweenInfo.new(1, Enum.EasingStyle.Quint), {ImageTransparency = 0})
+    local logoFadeOutTween = tweenService:Create(fcsIcon, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1})
 
-    fadeInTween:Play()
+    local creditsFadeInTween = tweenService:Create(menuGui.Credits.Credits, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0})
+    local stadiumFadeInTween = tweenService:Create(menuGui.Stadium.Stadium, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0})
+    local headerFadeInTween = tweenService:Create(menuGui.HeadCaption, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0})
+    local subheaderFadeInTween = tweenService:Create(menuGui.SubCaption, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0})
 
-    fadeInTween.Completed:Connect(function()
+    logoFadeInTween:Play()
+
+    logoFadeInTween.Completed:Connect(function()
         task.wait(1)
-        fadeOutTween:Play()
+        logoFadeOutTween:Play()
     end)
 
-    fadeOutTween.Completed:Connect(function()
-        menuFadeInTween:Play()
+    logoFadeOutTween.Completed:Connect(function()
+        creditsFadeInTween:Play()
+        stadiumFadeInTween:Play()
+        headerFadeInTween:Play()
+        subheaderFadeInTween:Play()
     end)
 end
 
 -- Create effects when hovering over buttons
 local function buttonHoverEffects(button)
-    
+    if button.Name == "Stadium" or button.Name == "Credits" then
+        button.MouseEnter:Connect(function()
+            local sizeAndColorTween = tweenService:Create(button.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0.181, 0, 0.109, 0), BackgroundTransparency = 0})
+            local tipsFadeInTween = tweenService:Create(button.Parent.Tips, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0})
+            tipsFadeInTween:Play()
+            sizeAndColorTween:Play()
+        end)
+
+        button.MouseLeave:Connect(function()
+            local sizeAndColorTween = tweenService:Create(button.Parent, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0.17, 0, 0.086, 0), BackgroundTransparency = 1})
+            local tipsFadeOutTween = tweenService:Create(button.Parent.Tips, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1})
+            tipsFadeOutTween:Play()
+            sizeAndColorTween:Play()
+        end)
+    end
+end
+
+local function buttonClickEffects(button)
+
 end
 
 local function main()
